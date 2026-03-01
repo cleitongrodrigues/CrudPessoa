@@ -11,7 +11,7 @@ public class PessoaRepository : IPessoaRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<Pessoa>> GetAllAsync()
+    public async Task<IEnumerable<Pessoa?>> GetAllAsync()
     {
         return await _context.Pessoas.ToListAsync();
     }

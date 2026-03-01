@@ -3,7 +3,7 @@ namespace CrudPessoa.Models
     public class Pessoa
     {
         public int Id { get; set; }
-        public string Nome { get; set; } = string.Empty;
-        public string DT_Nascimento { get; set; } = string.Empty;
+        public string? Nome { get; set; } = string.Empty;
+        public string? DT_Nascimento { get; set; } = string.Empty;
     }
 }

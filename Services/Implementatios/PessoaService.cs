@@ -10,24 +10,50 @@ public class PessoaService : IPessoaService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<Pessoa>> GetAllAsync()
+    public async Task<IEnumerable<PessoaResponseDTO>> GetAllAsync()
     {
-        return await _repository.GetAllAsync();
+        var pessoas = await _repository.GetAllAsync();
+
+        return pessoas.Select(p => new PessoaResponseDTO
+        {
+           Id = p.Id,
+           Nome = p.Nome,
+           DT_Nascimento = p.DT_Nascimento 
+        });
     }
 
-    public async Task<Pessoa?> GetByIdAsync(int id)
+    public async Task<PessoaResponseDTO?> GetByIdAsync(int id)
     {
-        return await _repository.GetByIdAsync(id);
+        var pessoa = await _repository.GetByIdAsync(id);
+        if (pessoa == null) return null;
+
+        return new PessoaResponseDTO
+        {
+            Id = pessoa.Id,
+            Nome = pessoa.Nome,
+            DT_Nascimento = pessoa.DT_Nascimento
+        };
     }
 
-    public async Task AddAsync(Pessoa pessoa)
+    public async Task AddAsync(PessoaCreateDTO pessoa)
     {
-        await _repository.AddAsync(pessoa);
+        var newPessoa = new Pessoa
+        {
+            Nome = pessoa.Nome,
+            DT_Nascimento = pessoa.DT_Nascimento
+        };
+        await _repository.AddAsync(newPessoa);
     }
 
-    public async Task UpdateAsync(Pessoa pessoa)
+    public async Task UpdateAsync(PessoaUpdateDTO pessoa)
     {
-        await _repository.UpdateAsync(pessoa);
+        var existingPessoa = await _repository.GetByIdAsync(pessoa.Id);
+        if (existingPessoa == null) return;
+
+        existingPessoa.Nome = pessoa.Nome;
+        existingPessoa.DT_Nascimento = pessoa.DT_Nascimento;
+
+        await _repository.UpdateAsync(existingPessoa);
     }
 
     public async Task DeleteAsync(int id)

@@ -15,14 +15,14 @@ namespace CrudPessoa.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pessoa>>> Get()
+        public async Task<ActionResult<IEnumerable<PessoaResponseDTO>>> Get()
         {
             var pessoas = await _pessoaService.GetAllAsync();
             return Ok(pessoas);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Pessoa>> GetById(int id)
+        public async Task<ActionResult<PessoaResponseDTO>> GetById(int id)
         {
             var pessoa = await _pessoaService.GetByIdAsync(id);
             if (pessoa == null)
@@ -34,7 +34,7 @@ namespace CrudPessoa.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Pessoa>> Create(Pessoa pessoa)
+        public async Task<ActionResult> Create(PessoaCreateDTO pessoa)
         {
             if (pessoa == null)
             {
@@ -42,11 +42,11 @@ namespace CrudPessoa.Controllers
             }
 
             await _pessoaService.AddAsync(pessoa);
-            return CreatedAtAction(nameof(GetById), new { id = pessoa.Id }, pessoa);
+            return Ok("Pessoa criada com sucesso.");
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Pessoa>> Update(int id, Pessoa pessoa)
+        public async Task<ActionResult> Update(int id, PessoaUpdateDTO pessoa)
         {
             if (id != pessoa.Id)
             {

@@ -2,9 +2,9 @@ using CrudPessoa.Models;
 
 public interface IPessoaService
 {
-    Task<IEnumerable<Pessoa>> GetAllAsync();
-    Task<Pessoa?> GetByIdAsync(int id);
-    Task AddAsync(Pessoa pessoa);
-    Task UpdateAsync(Pessoa pessoa);
+    Task<IEnumerable<PessoaResponseDTO>> GetAllAsync();
+    Task<PessoaResponseDTO?> GetByIdAsync(int id);
+    Task AddAsync(PessoaCreateDTO pessoa);
+    Task UpdateAsync(PessoaUpdateDTO pessoa);
     Task DeleteAsync(int id);
 }
